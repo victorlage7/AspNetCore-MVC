@@ -58,7 +58,8 @@ namespace ListaLeitura.App.Repositorio
             _lendo = new ListaDeLeitura("Lendo", arrayLendo.ToArray());
             _lidos = new ListaDeLeitura("Lidos", arrayLidos.ToArray());
 
-            Console.ReadLine();
+            
+
         }
 
         public ListaDeLeitura ParaLer => _paraLer;
