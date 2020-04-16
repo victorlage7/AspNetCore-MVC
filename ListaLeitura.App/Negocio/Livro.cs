@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Alura.ListaLeitura.App.Negocio
+namespace ListaLeitura.App.Negocio
 {
     public class Livro
     {

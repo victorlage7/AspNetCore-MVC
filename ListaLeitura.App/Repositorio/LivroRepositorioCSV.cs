@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Alura.ListaLeitura.App.Negocio;
+using ListaLeitura.App.Negocio;
 using System.IO;
 using System.Linq;
 
-namespace Alura.ListaLeitura.App.Repositorio
+namespace ListaLeitura.App.Repositorio
 {
     public class LivroRepositorioCSV : ILivroRepositorio
     {
