@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ListaLeitura.App
@@ -23,8 +24,18 @@ namespace ListaLeitura.App
             routeBuilder.MapRoute("livros/lendo", LivrosLendo);
             routeBuilder.MapRoute("livros/lidos", LivrosLidos);
             routeBuilder.MapRoute("Cadastro/Livro/{Livro}/{Autor}", CadastroNovoLivro);
+            routeBuilder.MapRoute("Livros/Detalhes/{id:int}", ExibeDetalhes);
             var rotas = routeBuilder.Build();
             app.UseRouter(rotas);
+        }
+
+
+        public Task ExibeDetalhes(HttpContext context)
+        {
+            int id = Convert.ToInt32(context.GetRouteValue("id"));
+            var _repo = new LivroRepositorioCSV();
+            var livro = _repo.Todos.First(l => l.Id == id);
+            return context.Response.WriteAsync(livro.Detalhes());
         }
 
         private Task CadastroNovoLivro(HttpContext context)
