@@ -9,6 +9,16 @@ namespace ListaLeitura.App.Negocio
         public string Autor { get; set; }
         public ListaDeLeitura Lista { get; set; }
 
+        public Livro()
+        {
+           
+        }
+
+        public Livro(string titulo, string autor) {
+            this.Titulo = titulo;
+            this.Autor = autor;
+        }
+
         public string Detalhes()
         {
             var stringBuilder = new StringBuilder();
