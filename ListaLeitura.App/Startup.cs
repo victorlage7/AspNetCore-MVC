@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,18 +25,37 @@ namespace ListaLeitura.App
             routeBuilder.MapRoute("Cadastro/Livro/{Livro}/{Autor}", CadastroNovoLivro);
             routeBuilder.MapRoute("Livros/Detalhes/{id:int}", ExibeDetalhes);
             routeBuilder.MapRoute("Cadastro/NovoLivro", ExibeFormulario);
+            routeBuilder.MapRoute("Cadastro/Incluir", ProcessaFormulario);
             var rotas = routeBuilder.Build();
             app.UseRouter(rotas);
+        }
+
+        private Task ProcessaFormulario(HttpContext context)
+        {
+            var livro = new Livro()
+            {
+                Titulo = context.Request.Query["titulo"].First(),
+                Autor = context.Request.Query["autor"].First(),
+            };
+
+            var repo = new LivroRepositorioCSV();
+            repo.Incluir(livro);
+            return context.Response.WriteAsync("O livro foi adicionado com sucesso");
         }
 
         private Task ExibeFormulario(HttpContext context)
         {
             var html = @"
                 <html>
-                    <form>
-                        <input />
-                        <input />
-                        <button>Gravar</button>
+                    <form action='/Cadastro/Incluir'>
+                      <label>Título:</label>
+                      <input name='titulo' />
+                      <br/>
+
+                      <label>Autor:</label>
+                      <input name='autor' />
+                      <br/>
+                      <button>Gravar</button>
                     </form>
                 </html>";
             return context.Response.WriteAsync(html);
