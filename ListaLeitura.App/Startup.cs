@@ -25,10 +25,23 @@ namespace ListaLeitura.App
             routeBuilder.MapRoute("livros/lidos", LivrosLidos);
             routeBuilder.MapRoute("Cadastro/Livro/{Livro}/{Autor}", CadastroNovoLivro);
             routeBuilder.MapRoute("Livros/Detalhes/{id:int}", ExibeDetalhes);
+            routeBuilder.MapRoute("Cadastro/NovoLivro", ExibeFormulario);
             var rotas = routeBuilder.Build();
             app.UseRouter(rotas);
         }
 
+        private Task ExibeFormulario(HttpContext context)
+        {
+            var html = @"
+                <html>
+                    <form>
+                        <input />
+                        <input />
+                        <button>Gravar</button>
+                    </form>
+                </html>";
+            return context.Response.WriteAsync(html);
+        }
 
         public Task ExibeDetalhes(HttpContext context)
         {
