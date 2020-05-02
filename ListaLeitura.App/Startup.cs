@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,8 +35,8 @@ namespace ListaLeitura.App
         {
             var livro = new Livro()
             {
-                Titulo = context.Request.Query["titulo"].First(),
-                Autor = context.Request.Query["autor"].First(),
+                Titulo = context.Request.Form["titulo"].First(),
+                Autor = context.Request.Form["autor"].First(),
             };
 
             var repo = new LivroRepositorioCSV();
@@ -43,21 +44,18 @@ namespace ListaLeitura.App
             return context.Response.WriteAsync("O livro foi adicionado com sucesso");
         }
 
+        private string CarregaArquivoHTML(string nomeArquivo)
+        {
+            var nomeCompletoArquivo = $"HTML/{nomeArquivo}.html";
+            using (var arquivo = File.OpenText(nomeCompletoArquivo))
+            {
+                return arquivo.ReadToEnd();
+            }
+        }
+
         private Task ExibeFormulario(HttpContext context)
         {
-            var html = @"
-                <html>
-                    <form action='/Cadastro/Incluir'>
-                      <label>Título:</label>
-                      <input name='titulo' />
-                      <br/>
-
-                      <label>Autor:</label>
-                      <input name='autor' />
-                      <br/>
-                      <button>Gravar</button>
-                    </form>
-                </html>";
+            var html = CarregaArquivoHTML("formulario");
             return context.Response.WriteAsync(html);
         }
 
